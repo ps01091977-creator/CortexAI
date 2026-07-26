@@ -1,0 +1,13 @@
+import { S3Client} from "@aws-sdk/client-s3";
+
+const region = process.env.AWS_REGION && !process.env.AWS_REGION.includes("add") ? process.env.AWS_REGION : "us-east-1";
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID && !process.env.AWS_ACCESS_KEY_ID.includes("add") ? process.env.AWS_ACCESS_KEY_ID : "dummy-access-key";
+const secretAccessKey = process.env.AWS_SECRET_KEY && !process.env.AWS_SECRET_KEY.includes("add") ? process.env.AWS_SECRET_KEY : "dummy-secret-key";
+
+export const s3=new S3Client({
+    region,
+    credentials:{
+        accessKeyId,
+        secretAccessKey
+    }
+})
