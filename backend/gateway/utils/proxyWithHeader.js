@@ -9,13 +9,8 @@ export const proxyWithHeader = (serviceUrl) => {
             return proxyReqOpts
         },
         userResHeaderDecorator: (headers, userReq, userRes, proxyReq, proxyRes) => {
-            const allowedOrigins = [
-                process.env.FRONTEND_URL,
-                "https://cortexai-2.onrender.com",
-                "http://localhost:5173"
-            ].filter(Boolean);
             const origin = userReq.headers.origin;
-            if (origin && allowedOrigins.includes(origin)) {
+            if (origin) {
                 headers['access-control-allow-origin'] = origin;
                 headers['access-control-allow-credentials'] = 'true';
                 headers['access-control-allow-headers'] = 'Content-Type, Authorization, x-user-id';

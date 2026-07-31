@@ -11,13 +11,8 @@ const port =process.env.PORT
 
 const app=express()
 app.use((req, res, next) => {
-    const allowedOrigins = [
-        process.env.FRONTEND_URL,
-        "https://cortexai-2.onrender.com",
-        "http://localhost:5173"
-    ].filter(Boolean);
     const origin = req.headers.origin;
-    if (origin && allowedOrigins.includes(origin)) {
+    if (origin) {
         res.setHeader("Access-Control-Allow-Origin", origin);
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
