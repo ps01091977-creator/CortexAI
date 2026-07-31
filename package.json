@@ -1,0 +1,11 @@
+{
+  "name": "cortex-ai-root",
+  "version": "1.0.0",
+  "description": "Root package for CortexAI monorepo",
+  "type": "module",
+  "scripts": {
+    "install-all": "npm install --prefix backend/gateway && npm install --prefix backend/services/auth && npm install --prefix backend/services/chat && npm install --prefix backend/services/agent",
+    "build": "npm run install-all",
+    "start": "node run-backend-prod.js"
+  }
+}

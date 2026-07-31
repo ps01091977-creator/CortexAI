@@ -9,8 +9,9 @@ export const agent=async (req,res,next) => {
         const {prompt,conversationId,agent}=req.body
         const file=req.file
         const userId=req.headers["x-user-id"] || "default-user"
+        const chatServiceUrl = process.env.CHAT_SERVICE || "http://localhost:8002"
         
-        await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
+        await axios.post(`${chatServiceUrl}/save-message`,{
             conversationId,role:"user",content:prompt
         }).catch(() => {})
 
@@ -24,7 +25,7 @@ export const agent=async (req,res,next) => {
 
         await addMessage(conversationId,"user",prompt).catch(() => {})
         await addMessage(conversationId,"assistant",aiResponse).catch(() => {})
-        await axios.post(`${process.env.CHAT_SERVICE}/save-message`,{
+        await axios.post(`${chatServiceUrl}/save-message`,{
             conversationId,role:"assistant",content:aiResponse,images,artifacts
         }).catch(() => {})
 

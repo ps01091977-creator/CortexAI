@@ -30,9 +30,13 @@ app.use((req, res, next) => {
 });
 app.use(morgan("dev"))
 app.use(cookieParser())
-app.use("/api/auth",proxyWithHeader(process.env.AUTH_SERVICE))
-app.use("/api/chat",protect,proxyWithHeader(process.env.CHAT_SERVICE))
-app.use("/api/agent",protect,proxyWithHeader(process.env.AGENT_SERVICE))
+const AUTH_SERVICE = process.env.AUTH_SERVICE || "http://localhost:8001"
+const CHAT_SERVICE = process.env.CHAT_SERVICE || "http://localhost:8002"
+const AGENT_SERVICE = process.env.AGENT_SERVICE || "http://localhost:8003"
+
+app.use("/api/auth",proxyWithHeader(AUTH_SERVICE))
+app.use("/api/chat",protect,proxyWithHeader(CHAT_SERVICE))
+app.use("/api/agent",protect,proxyWithHeader(AGENT_SERVICE))
 app.get("/api/me",protect,getCurrentUser)
 app.get("/",(req,res)=>{
     res.json({message:"hello from gateway v5"})
