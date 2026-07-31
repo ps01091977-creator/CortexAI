@@ -19,7 +19,15 @@ export const getFromS3=async (filename,expiresIn=600)=>{
  const localFilePath = path.resolve(__dirname, '../public/uploads', filename);
 
  if (!isS3Configured || fs.existsSync(localFilePath)) {
-   const baseUrl = process.env.PUBLIC_URL || "http://localhost:8003";
+   let baseUrl = process.env.PUBLIC_URL;
+   if (!baseUrl) {
+     if (process.env.RENDER_EXTERNAL_URL) {
+       baseUrl = `${process.env.RENDER_EXTERNAL_URL}/api/agent`;
+     } else {
+       const port = process.env.PORT || 8003;
+       baseUrl = `http://localhost:${port}`;
+     }
+   }
    return `${baseUrl}/uploads/${filename}`;
  }
 
@@ -35,7 +43,15 @@ export const getFromS3=async (filename,expiresIn=600)=>{
    )
  } catch (err) {
    console.warn("S3 getSignedUrl failed, trying local fallback:", err.message);
-   const baseUrl = process.env.PUBLIC_URL || "http://localhost:8003";
+   let baseUrl = process.env.PUBLIC_URL;
+   if (!baseUrl) {
+     if (process.env.RENDER_EXTERNAL_URL) {
+       baseUrl = `${process.env.RENDER_EXTERNAL_URL}/api/agent`;
+     } else {
+       const port = process.env.PORT || 8003;
+       baseUrl = `http://localhost:${port}`;
+     }
+   }
    return `${baseUrl}/uploads/${filename}`;
  }
 }
