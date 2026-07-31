@@ -13,7 +13,7 @@ export const chatAgent = async (state) => {
 
         const llm = await getModel("chat");
         if (llm) {
-            const history = await getMemory(state.conversationId);
+            const history = (await getMemory(state.conversationId)) || [];
             const searchContext = state.searchResults ? `\nWeb Search Results:\n${JSON.stringify(state.searchResults)}\nAnswer the user using only the above search results.\n` : "";
 
             const systemPrompt = `
